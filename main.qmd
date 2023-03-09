@@ -4,9 +4,12 @@ format:
   html:
     code-fold: true
 jupyter: julia-1.9
+execute: 
+  cache: true
 ---
 
 This document summarizes the properties of the [R14374 PMT](https://p-one.atlassian.net/wiki/spaces/PONE/pages/31260673/Photomultiplier+Tube+-+Design+Documentation) and the digitization electronics.
+TODO: Add plots / analyses from Elli.
 
 ```{julia}
 #| echo: false
@@ -25,19 +28,25 @@ import Pipe: @pipe
 using PoissonRandom
 using Format
 
+fwhm = 6.0
+gumbel_scale = gumbel_width_from_fwhm(6)
+gumbel_loc = 10
+
 pmt_config = PMTConfig(
-    ExponTruncNormalSPE(expon_rate=1.0, norm_sigma=0.3, norm_mu=1.0, trunc_low=0.0, peak_to_valley=3.1),
-    PDFPulseTemplate(
-        dist=truncated(Gumbel(0, gumbel_width_from_fwhm(5.0)) + 4, 0, 20),
-        amplitude=1.0 #ustrip(u"A", 5E6 * ElementaryCharge / 20u"ns")
+    st=ExponTruncNormalSPE(expon_rate=1.0, norm_sigma=0.3, norm_mu=1.0, trunc_low=0.0, peak_to_valley=3.1),
+    pm=PDFPulseTemplate(
+        dist=Truncated(Gumbel(0, gumbel_scale) + gumbel_loc, 0, 30),
+        amplitude=7.0 # mV
     ),
-    30,
-    2.0,
-    0.1,
-    0.25,
-    0.125,
-    25, # TT mean
-    1.5 # TT FWHM
+    snr_db=22.92,
+    sampling_freq=2.0,
+    unf_pulse_res=0.1,
+    adc_freq=0.2,
+    adc_bits=12,
+    adc_dyn_range=(0.0, 1000.0), #mV
+    lp_cutoff=0.125,
+    tt_mean=25, # TT mean
+    tt_fwhm=1.5 # TT FWHM
 )
 spe_d = make_spe_dist(pmt_config.spe_template)
 ```
@@ -47,21 +56,27 @@ The PMT pulse shape is modelled by a gumbel distribution:
 $$
 p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 $$
-
-
+with parameters:
+```{julia}
+#| echo: false
+println(format("a={:.2f}, b={:.2f}, FWHM={:.1f}ns", gumbel_loc, gumbel_scale, fwhm))
+```
 
 ```{julia}
 #| label: fig-pulseshape
 #| fig-cap: "Pulse shape of unfiltered (blue) anf filtered (125MHz LPF, yellow)"
+#| echo: false
 fig, ax, l = lines(-10:0.1:50, x -> evaluate_pulse_template(pmt_config.pulse_model, 0.0, x),
     axis=(; ylabel="Amplitude (a.u.)", xlabel="Time (ns)", title="Pulse template"), label="Unfiltered")
+lines!(ax, -10:0.1:50, x -> evaluate_pulse_template(pmt_config.pulse_model_filt, 0.0, x), label="Filtered (125Mhz LPF)")
 axislegend(ax)
 fig
-lines!(ax, -10:0.1:50, x -> evaluate_pulse_template(pmt_config.pulse_model_filt, 0.0, x), label="Filtered (125Mhz LPF)")
-
 ```
 
+@fig-pulseshape shows the pulse shape with arbitrary normalization. Additionally, it shows the pulse after applying a 125Mhz low pass filter (LPF). The (unshifted) Gumbel distribution has a non-zero contribution for $x<0$, thus the distribution is shifted by an arbitrary location parameter. This shift is later compensated in the transit time.
+
 # Transit Time
+
 
 # SPE Distribution
 The SPE distribution is modelled as a mixture of a truncated normal distribution and an exponential distribution:
