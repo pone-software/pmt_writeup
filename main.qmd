@@ -1,0 +1,84 @@
+---
+title: "P-ONE PMT"
+format:
+  html:
+    code-fold: true
+jupyter: julia-1.9
+---
+
+This document summarizes the properties of the [R14374 PMT](https://p-one.atlassian.net/wiki/spaces/PONE/pages/31260673/Photomultiplier+Tube+-+Design+Documentation) and the digitization electronics.
+
+```{julia}
+#| echo: false
+#| output: false
+using PMTSimulation
+using CairoMakie
+using Distributions
+using Random
+using StaticArrays
+using DSP
+using Profile
+using DataFrames
+using BenchmarkTools
+using StatsPlots
+import Pipe: @pipe
+using PoissonRandom
+using Format
+
+pmt_config = PMTConfig(
+    ExponTruncNormalSPE(expon_rate=1.0, norm_sigma=0.3, norm_mu=1.0, trunc_low=0.0, peak_to_valley=3.1),
+    PDFPulseTemplate(
+        dist=truncated(Gumbel(0, gumbel_width_from_fwhm(5.0)) + 4, 0, 20),
+        amplitude=1.0 #ustrip(u"A", 5E6 * ElementaryCharge / 20u"ns")
+    ),
+    30,
+    2.0,
+    0.1,
+    0.25,
+    0.125,
+    25, # TT mean
+    1.5 # TT FWHM
+)
+spe_d = make_spe_dist(pmt_config.spe_template)
+```
+
+# Pulse Shape
+The PMT pulse shape is modelled by a gumbel distribution:
+$$
+p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
+$$
+
+
+
+```{julia}
+#| label: fig-pulseshape
+#| fig-cap: "Pulse shape of unfiltered (blue) anf filtered (125MHz LPF, yellow)"
+fig, ax, l = lines(-10:0.1:50, x -> evaluate_pulse_template(pmt_config.pulse_model, 0.0, x),
+    axis=(; ylabel="Amplitude (a.u.)", xlabel="Time (ns)", title="Pulse template"), label="Unfiltered")
+axislegend(ax)
+fig
+lines!(ax, -10:0.1:50, x -> evaluate_pulse_template(pmt_config.pulse_model_filt, 0.0, x), label="Filtered (125Mhz LPF)")
+
+```
+
+# Transit Time
+
+# SPE Distribution
+The SPE distribution is modelled as a mixture of a truncated normal distribution and an exponential distribution:
+$$ p(q) = a \cdot \frac{1}{\sqrt{2\pi\sigma^2}} \exp \left ( -\frac{(q-\mu)^2}{\sigma^2} \right )  + (1-a)\cdot \frac{1}{\theta}\exp \left( - \frac{q}{\theta}\right)$$
+```{julia}
+#| label: fig-spedist
+#| fig-cap: "SPE Distribution"
+lines(0:0.01:5, x -> pdf(spe_d, x),
+    axis=(; title="SPE Distribution", xlabel="Charge (PE)", ylabel="PDF"))
+```
+
+# PMT Pulses
+The PMT pulse amplitude is drawn from the SPE distribution
+
+
+# Waveforms
+Waveforms are produced by summing the pulse templates at timestamps $t_1, \ldots, t_n$ weighted with their respective charges $q_1, \ldots, q_n$.
+
+# Waveform digitization
+Waveforms are digitized by sampling the sum o
