@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Christian Haack">
+<meta name="description" content="This document summarizes the simulation of the R14374 PMT and the digitization electronics.">
 
-<title>P-ONE PMT</title>
+<title>P-ONE PMT Properties &amp; Simulation</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -99,14 +101,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">P-ONE PMT</h1>
+<h1 class="title">P-ONE PMT Properties &amp; Simulation</h1>
 </div>
 
+<div>
+  <div class="description">
+    <p>This document summarizes the simulation of the <a href="https://p-one.atlassian.net/wiki/spaces/PONE/pages/31260673/Photomultiplier+Tube+-+Design+Documentation">R14374 PMT</a> and the digitization electronics.</p>
+  </div>
+</div>
 
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Christian Haack </p>
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            <a href="https://www.ph.nat.tum.de/cosmic-particles/experimental-physics-with-cosmic-particles/">
+            ECP, TU Munich
+            </a>
+          </p>
+      </div>
+    </div>
 
 <div class="quarto-title-meta">
 
-    
+      
   
     
   </div>
@@ -114,7 +136,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p>This document summarizes the properties of the <a href="https://p-one.atlassian.net/wiki/spaces/PONE/pages/31260673/Photomultiplier+Tube+-+Design+Documentation">R14374 PMT</a> and the digitization electronics. TODO: Add plots / analyses from Elli.</p>
 <section id="pulse-shape" class="level1">
 <h1>Pulse Shape</h1>
 <p>The PMT pulse shape is modelled by a gumbel distribution: <span class="math display">\[
@@ -126,7 +147,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 </div>
 </div>
 <div class="cell" data-execution_count="3">
-<div class="cell-output cell-output-display" data-execution_count="16">
+<div class="cell-output cell-output-display" data-execution_count="52">
 <div id="fig-pulseshape" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="main_files/figure-html/fig-pulseshape-output-1.svg" class="img-fluid figure-img"></p>
@@ -149,7 +170,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fl">0</span><span class="op">:</span><span class="fl">0.01</span><span class="op">:</span><span class="fl">5</span>, x <span class="op">-&gt;</span> <span class="fu">pdf</span>(spe_d, x),</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    axis<span class="op">=</span>(; title<span class="op">=</span><span class="st">"SPE Distribution"</span>, xlabel<span class="op">=</span><span class="st">"Charge (PE)"</span>, ylabel<span class="op">=</span><span class="st">"PDF"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="17">
+<div class="cell-output cell-output-display" data-execution_count="53">
 <div id="fig-spedist" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="main_files/figure-html/fig-spedist-output-1.svg" class="img-fluid figure-img"></p>
@@ -168,7 +189,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>charges <span class="op">=</span> <span class="fu">rand</span>(spe_d, <span class="fl">1000</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(charges, axis<span class="op">=</span>(; xlabel<span class="op">=</span><span class="st">"Charge (PE)"</span>, ylabel<span class="op">=</span><span class="st">"Counts"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="18">
+<div class="cell-output cell-output-display" data-execution_count="54">
 <div id="fig-spedist-sampl" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="main_files/figure-html/fig-spedist-sampl-output-1.svg" class="img-fluid figure-img"></p>
@@ -197,7 +218,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="19">
+<div class="cell-output cell-output-display" data-execution_count="55">
 <div id="fig-ps-example" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="main_files/figure-html/fig-ps-example-output-1.svg" class="img-fluid figure-img"></p>
@@ -217,7 +238,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(waveform.timestamps, waveform.values, axis<span class="op">=</span>(; xlabel<span class="op">=</span><span class="st">"Time (ns)"</span>, ylabel<span class="op">=</span><span class="st">"Amplitude (mV)"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="20">
+<div class="cell-output cell-output-display" data-execution_count="56">
 <div id="fig-wf-example" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="main_files/figure-html/fig-wf-example-output-1.svg" class="img-fluid figure-img"></p>
@@ -252,7 +273,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="fu">lines!</span>(ax, digi_wg.timestamps, digi_wg.values, label<span class="op">=</span><span class="st">"Digitized Waveform"</span>)</span>
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="21">
+<div class="cell-output cell-output-display" data-execution_count="57">
 <div id="fig-digiwf-example" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="main_files/figure-html/fig-digiwf-example-output-1.svg" class="img-fluid figure-img"></p>
@@ -297,7 +318,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 <span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="fu">Legend</span>(fig[<span class="fl">1</span>, <span class="fl">2</span>], [p1, p2, p3], [<span class="st">"Pulses"</span>, <span class="st">"Digitized Waveform"</span>, <span class="st">"ADC Levels"</span>])</span>
 <span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="22">
+<div class="cell-output cell-output-display" data-execution_count="58">
 <div id="fig-digiwf-small-pulse" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="main_files/figure-html/fig-digiwf-small-pulse-output-1.svg" class="img-fluid figure-img"></p>
@@ -334,7 +355,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 <span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="fu">Legend</span>(fig[<span class="fl">1</span>, <span class="fl">2</span>], [p1, p2, p3], [<span class="st">"Pulses"</span>, <span class="st">"Digitized Waveform"</span>, <span class="st">"ADC Levels"</span>])</span>
 <span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="23">
+<div class="cell-output cell-output-display" data-execution_count="59">
 <div id="fig-digiwf-small-pulse-threev" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="main_files/figure-html/fig-digiwf-small-pulse-threev-output-1.svg" class="img-fluid figure-img"></p>
@@ -346,7 +367,15 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 </section>
 </section>
 
-</main>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{haack,
+  author = {Haack, Christian},
+  title = {P-ONE {PMT} {Properties} \&amp; {Simulation}},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-haack" class="csl-entry quarto-appendix-citeas" role="listitem">
+Haack, Christian. n.d. <span>“P-ONE PMT Properties &amp;
+Simulation.”</span>
+</div></div></section></div></main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
