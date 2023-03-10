@@ -1,0 +1,21 @@
+project:
+  title: "P-ONE PMT Properties & Simulation"
+description: |
+  This document summarizes the simulation of the [R14374 PMT](https://p-one.atlassian.net/wiki/spaces/PONE/pages/31260673/Photomultiplier+Tube+-+Design+Documentation) and the digitization electronics.
+format:
+  html:
+    code-fold: true
+    comments:
+      hypothesis: true
+    toc: true
+    toc-depth: 2
+jupyter: julia-1.9
+execute: 
+  cache: false
+title-block-banner: false
+author:
+  - name: Christian Haack
+    affiliation: ECP, TU Munich
+    affiliation-url: https://www.ph.nat.tum.de/cosmic-particles/experimental-physics-with-cosmic-particles/
+citation: true
+
