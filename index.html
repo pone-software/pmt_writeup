@@ -406,7 +406,8 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 </section>
 <section id="unfolding" class="level2">
 <h2 class="anchored" data-anchor-id="unfolding">Unfolding</h2>
-<div class="cell" data-execution_count="12">
+<p>Pulses are unfolded from digitized waveforms using non-negative least squares (NNLS). Pulse templates (PMT pulses after they have passed through the digitization chain) are placed on a fine time grid, with resolution smaller than the expected time resolution. The resulting summed signal is fitted to the digitized waveform, yielding a <code>charge</code> (scaling factor) for each pulse template which best matches the waveform. Pulses with small charges (<span class="math inline">\(&lt;0.1\)</span> PE)are cut out. <a href="#fig-unfolding">Figure&nbsp;9</a> shows an example of such an unfolding.</p>
+<div class="cell" data-fig-caption="Pulse unfolding for a 1PE pulse." data-execution_count="12">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>ps <span class="op">=</span> <span class="fu">PulseSeries</span>([<span class="fl">5.0</span>], [<span class="fl">1.0</span>], pmt_config.pulse_model)</span>
@@ -416,14 +417,22 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>reco <span class="op">=</span> <span class="fu">PulseSeries</span>(unfolded.times, unfolded.charges, pmt_config.pulse_model)</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>ts <span class="op">=</span> <span class="op">-</span><span class="fl">20</span><span class="op">:</span><span class="fl">0.1</span><span class="op">:</span><span class="fl">50</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> <span class="fu">lines</span>(ts, <span class="fu">evaluate_pulse_series</span>(ts, ps), label<span class="op">=</span><span class="st">"Original Pulse"</span>)</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="fu">lines!</span>(ax, digi_wf.timestamps, digi_wf.values, label<span class="op">=</span><span class="st">"Digitized Pulse"</span>)</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="fu">lines!</span>(ax, ts, <span class="fu">evaluate_pulse_series</span>(ts, reco), label<span class="op">=</span><span class="st">"Reconstructed Pulse"</span>)</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> <span class="fu">lines</span>(ts, <span class="fu">evaluate_pulse_series</span>(ts, ps), label<span class="op">=</span><span class="st">"Original Pulse"</span>,</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    axis<span class="op">=</span>(; xlabel<span class="op">=</span><span class="st">"Time (ns)"</span>, ylabel<span class="op">=</span><span class="st">"Amplitude (mV)"</span>))</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="fu">lines!</span>(ax, digi_wf.timestamps, digi_wf.values, label<span class="op">=</span><span class="st">"Digitized Pulse"</span>)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="fu">lines!</span>(ax, ts, <span class="fu">evaluate_pulse_series</span>(ts, reco), label<span class="op">=</span><span class="st">"Reconstructed Pulse"</span>)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="fu">Legend</span>(fig[<span class="fl">1</span>, <span class="fl">2</span>], ax)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="12">
-<p><img src="main_files/figure-html/cell-12-output-1.svg" class="img-fluid"></p>
+<div id="fig-unfolding" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="main_files/figure-html/fig-unfolding-output-1.svg" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;9: <strong>?(caption)</strong></figcaption><p></p>
+</figure>
+</div>
 </div>
 </div>
 <div class="cell" data-execution_count="13">
@@ -477,7 +486,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 </section>
 <section id="timing-study" class="level2">
 <h2 class="anchored" data-anchor-id="timing-study">Timing Study</h2>
-<p>To test the impact of the digitization chain on the timing resolution, we can conduct a study with pulses for different charges and different settings of the dynamic range and the noise rate. <a href="#fig-time-res">Figure&nbsp;9</a> summarizes the results. <a href="#fig-dt-dist">Figure&nbsp;10</a> shows the time difference distribution for one simulation set.</p>
+<p>To test the impact of the digitization chain on the timing resolution, we can conduct a study with pulses for different charges and different settings of the dynamic range and the noise rate. <a href="#fig-time-res">Figure&nbsp;10</a> summarizes the results. <a href="#fig-dt-dist">Figure&nbsp;11</a> shows the time difference distribution for one simulation set.</p>
 <div class="cell" data-execution_count="14">
 <details>
 <summary>Code</summary>
@@ -519,7 +528,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 <div id="fig-time-res" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="main_files/figure-html/fig-time-res-output-1.svg" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;9: Time resolution of unfolded pulses.</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;10: Time resolution of unfolded pulses.</figcaption><p></p>
 </figure>
 </div>
 </div>
@@ -529,7 +538,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 <div id="fig-dt-dist" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="main_files/figure-html/fig-dt-dist-output-1.svg" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;10: Distribution of the time difference between pulse time and unfolded pulse time for 1PE pulses and 3mV dynamic range</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;11: Distribution of the time difference between pulse time and unfolded pulse time for 1PE pulses and 3mV dynamic range</figcaption><p></p>
 </figure>
 </div>
 </div>
