@@ -244,7 +244,13 @@ fig
 ```
 
 ## Unfolding
+Pulses are unfolded from digitized waveforms using non-negative least squares (NNLS). Pulse templates (PMT pulses after they have passed through the digitization chain) are placed on a fine time grid, with resolution smaller than the expected time resolution. The resulting summed signal is fitted to the digitized waveform, yielding a `charge` (scaling factor) for each pulse template which best matches the waveform. Pulses with small charges ($<0.1$ PE)are cut out. @fig-unfolding shows an example of such an unfolding.
+
+
 ```{julia}
+#| fig-cap: "Pulse unfolding for a 1PE pulse."
+#| label: fig-unfolding
+
 ps = PulseSeries([5.0], [1.0], pmt_config.pulse_model)
 digi_wf = digitize_waveform(ps, pmt_config.sampling_freq, pmt_config.adc_freq, pmt_config.noise_amp, pmt_config.lp_filter, time_range=[-10, 50], yrange=(0.0, 1000.0),)
 unfolded = unfold_waveform(digi_wf, pmt_config.pulse_model_filt, pmt_config.unf_pulse_res, 0.1, :nnls)
@@ -252,9 +258,12 @@ unfolded = unfold_waveform(digi_wf, pmt_config.pulse_model_filt, pmt_config.unf_
 reco = PulseSeries(unfolded.times, unfolded.charges, pmt_config.pulse_model)
 
 ts = -20:0.1:50
-fig, ax = lines(ts, evaluate_pulse_series(ts, ps), label="Original Pulse")
+fig, ax = lines(ts, evaluate_pulse_series(ts, ps), label="Original Pulse",
+    axis=(; xlabel="Time (ns)", ylabel="Amplitude (mV)"))
 lines!(ax, digi_wf.timestamps, digi_wf.values, label="Digitized Pulse")
 lines!(ax, ts, evaluate_pulse_series(ts, reco), label="Reconstructed Pulse")
+
+Legend(fig[1, 2], ax)
 
 fig
 
@@ -312,6 +321,7 @@ time_res = combine(groupby(data_unf_res, [:charge, :dr_end]), :dt => mean, :dt =
 
 ## Timing Study
 To test the impact of the digitization chain on the timing resolution, we can conduct a study with pulses for different charges and different settings of the dynamic range and the noise rate. @fig-time-res summarizes the results. @fig-dt-dist shows the time difference distribution for one simulation set.
+Note, that this simulation does not include the SPE distribution.
 ```{julia}
 #| label: fig-time-res
 #| fig-cap: "Time resolution of unfolded pulses."
