@@ -38,7 +38,8 @@ pmt_config = PMTConfig(
         dist=Truncated(Gumbel(0, gumbel_scale) + gumbel_loc, 0, 30),
         amplitude=7.0 # mV
     ),
-    snr_db=22.92,
+    #snr_db=22.92,
+    snr_db=30.0,
     sampling_freq=2.0,
     unf_pulse_res=0.1,
     adc_freq=0.2,
@@ -48,7 +49,7 @@ pmt_config = PMTConfig(
     tt_mean=25, # TT mean
     tt_fwhm=1.5 # TT FWHM
 )
-pmt_config_low_noise = PMTConfig(
+pmt_config_high_sampl = PMTConfig(
     st=ExponTruncNormalSPE(expon_rate=1.0, norm_sigma=0.3, norm_mu=1.0, trunc_low=0.0, peak_to_valley=3.1),
     pm=PDFPulseTemplate(
         dist=Truncated(Gumbel(0, gumbel_scale) + gumbel_loc, 0, 30),
@@ -57,7 +58,7 @@ pmt_config_low_noise = PMTConfig(
     snr_db=30.0,
     sampling_freq=2.0,
     unf_pulse_res=0.1,
-    adc_freq=0.2,
+    adc_freq=0.25,
     adc_bits=12,
     adc_dyn_range=(0.0, 1000.0), #mV
     lp_cutoff=0.125,
@@ -142,7 +143,7 @@ Raw waveforms are created by evaluating the pulse series with a given sampling f
 #| label: fig-wf-example
 #| fig-cap: "Raw Waveform for three pulses at times 0ns, 5ns and 10ns with charges 1PE, 5PE and 1PE"
 
-waveform = make_waveform(pulse_series, pmt_config.sampling_freq, pmt_config.noise_amp)
+waveform = Waveform(pulse_series, pmt_config.sampling_freq, pmt_config.noise_amp)
 
 lines(waveform.timestamps, waveform.values, axis=(; xlabel="Time (ns)", ylabel="Amplitude (mV)"))
 ```
@@ -244,7 +245,7 @@ fig
 ```
 
 ## Unfolding
-Pulses are unfolded from digitized waveforms using non-negative least squares (NNLS). Pulse templates (PMT pulses after they have passed through the digitization chain) are placed on a fine time grid, with resolution smaller than the expected time resolution. The resulting summed signal is fitted to the digitized waveform, yielding a `charge` (scaling factor) for each pulse template which best matches the waveform. Pulses with small charges ($<0.1$ PE)are cut out. @fig-unfolding shows an example of such an unfolding.
+Pulses are unfolded from digitized waveforms using non-negative least squares (NNLS). Pulse templates (PMT pulses after they have passed through the digitization chain) are placed on a fine time grid, with resolution smaller than the expected time resolution. The resulting summed signal is fitted to the digitized waveform, yielding a `charge` (scaling factor) for each pulse template which best matches the waveform. Pulses with small charges ($<0.1$ PE) are cut out. @fig-unfolding shows an example of such an unfolding.
 
 
 ```{julia}
@@ -253,7 +254,7 @@ Pulses are unfolded from digitized waveforms using non-negative least squares (N
 
 ps = PulseSeries([5.0], [1.0], pmt_config.pulse_model)
 digi_wf = digitize_waveform(ps, pmt_config.sampling_freq, pmt_config.adc_freq, pmt_config.noise_amp, pmt_config.lp_filter, time_range=[-10, 50], yrange=(0.0, 1000.0),)
-unfolded = unfold_waveform(digi_wf, pmt_config.pulse_model_filt, pmt_config.unf_pulse_res, 0.1, :nnls)
+unfolded = unfold_waveform(digi_wf, pmt_config.pulse_model_filt, pmt_config.unf_pulse_res, 0.3, :nnls)
 
 reco = PulseSeries(unfolded.times, unfolded.charges, pmt_config.pulse_model)
 
@@ -296,9 +297,9 @@ data_unf_res_low_noise = []
 for (dr_end, c) in product(dyn_ranges_end, pulse_charges)
     pulse_times = rand(Uniform(0, 10), 100)
     for t in pulse_times
-        ps = PulseSeries([t], [c], pmt_config_low_noise.pulse_model)
-        digi_wf = digitize_waveform(ps, pmt_config_low_noise.sampling_freq, pmt_config_low_noise.adc_freq, pmt_config_low_noise.noise_amp, pmt_config_low_noise.lp_filter, time_range=[-10, 50], yrange=(0.0, dr_end),)
-        unfolded = unfold_waveform(digi_wf, pmt_config_low_noise.pulse_model_filt, pmt_config_low_noise.unf_pulse_res, 0.1, :nnls)
+        ps = PulseSeries([t], [c], pmt_config_high_sampl.pulse_model)
+        digi_wf = digitize_waveform(ps, pmt_config_high_sampl.sampling_freq, pmt_config_high_sampl.adc_freq, pmt_config_high_sampl.noise_amp, pmt_config_high_sampl.lp_filter, time_range=[-10, 50], yrange=(0.0, dr_end),)
+        unfolded = unfold_waveform(digi_wf, pmt_config_high_sampl.pulse_model_filt, pmt_config_high_sampl.unf_pulse_res, 0.1, :nnls)
         if length(unfolded) > 0
             amax = sortperm(unfolded.charges)[end]
 
@@ -356,8 +357,8 @@ dyn_range_labels = getproperty.(keys(groupby(time_res, :dr_end)), :dr_end)
 Legend(
     fig[1, 2],
     [group_color, group_linestyles],
-    [string.(dyn_range_labels), [format("{:.2f}", pmt_config.noise_amp), format("{:.2f}", pmt_config_low_noise.noise_amp)]],
-    ["Dynamic range (mV)", "Noise Amplitude (mV)"])
+    [string.(dyn_range_labels), [format("{:.2f}", pmt_config.adc_freq), format("{:.2f}", pmt_config_high_sampl.adc_freq)]],
+    ["Dynamic range (mV)", "Sampling Rate (MHz)"])
 fig
 ```
 
