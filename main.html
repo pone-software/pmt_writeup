@@ -185,7 +185,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 </div>
 </div>
 <div class="cell" data-execution_count="4">
-<div class="cell-output cell-output-display" data-execution_count="4">
+<div class="cell-output cell-output-display" data-execution_count="26">
 <div id="fig-pulseshape" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="main_files/figure-html/fig-pulseshape-output-1.svg" class="img-fluid figure-img"></p>
@@ -208,7 +208,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fl">0</span><span class="op">:</span><span class="fl">0.01</span><span class="op">:</span><span class="fl">5</span>, x <span class="op">-&gt;</span> <span class="fu">pdf</span>(spe_d, x),</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    axis<span class="op">=</span>(; title<span class="op">=</span><span class="st">"SPE Distribution"</span>, xlabel<span class="op">=</span><span class="st">"Charge (PE)"</span>, ylabel<span class="op">=</span><span class="st">"PDF"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="5">
+<div class="cell-output cell-output-display" data-execution_count="27">
 <div id="fig-spedist" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="main_files/figure-html/fig-spedist-output-1.svg" class="img-fluid figure-img"></p>
@@ -227,7 +227,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>charges <span class="op">=</span> <span class="fu">rand</span>(spe_d, <span class="fl">1000</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(charges, axis<span class="op">=</span>(; xlabel<span class="op">=</span><span class="st">"Charge (PE)"</span>, ylabel<span class="op">=</span><span class="st">"Counts"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="6">
+<div class="cell-output cell-output-display" data-execution_count="28">
 <div id="fig-spedist-sampl" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="main_files/figure-html/fig-spedist-sampl-output-1.svg" class="img-fluid figure-img"></p>
@@ -256,7 +256,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="7">
+<div class="cell-output cell-output-display" data-execution_count="29">
 <div id="fig-ps-example" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="main_files/figure-html/fig-ps-example-output-1.svg" class="img-fluid figure-img"></p>
@@ -272,11 +272,11 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 <div class="cell" data-execution_count="8">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>waveform <span class="op">=</span> <span class="fu">make_waveform</span>(pulse_series, pmt_config.sampling_freq, pmt_config.noise_amp)</span>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>waveform <span class="op">=</span> <span class="fu">Waveform</span>(pulse_series, pmt_config.sampling_freq, pmt_config.noise_amp)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(waveform.timestamps, waveform.values, axis<span class="op">=</span>(; xlabel<span class="op">=</span><span class="st">"Time (ns)"</span>, ylabel<span class="op">=</span><span class="st">"Amplitude (mV)"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="8">
+<div class="cell-output cell-output-display" data-execution_count="30">
 <div id="fig-wf-example" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="main_files/figure-html/fig-wf-example-output-1.svg" class="img-fluid figure-img"></p>
@@ -311,7 +311,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="fu">lines!</span>(ax, digi_wg.timestamps, digi_wg.values, label<span class="op">=</span><span class="st">"Digitized Waveform"</span>)</span>
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="31">
 <div id="fig-digiwf-example" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="main_files/figure-html/fig-digiwf-example-output-1.svg" class="img-fluid figure-img"></p>
@@ -328,7 +328,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pulse_series <span class="op">=</span> <span class="fu">PulseSeries</span>([<span class="fl">0</span>, <span class="fl">20</span>, <span class="fl">40</span>, <span class="fl">60</span>], [<span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>], pmt_config.pulse_model)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>waveform <span class="op">=</span> <span class="fu">make_waveform</span>(pulse_series, pmt_config.sampling_freq, pmt_config.noise_amp)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>waveform <span class="op">=</span> <span class="fu">Waveform</span>(pulse_series, pmt_config.sampling_freq, pmt_config.noise_amp)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> <span class="fu">Figure</span>()</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> <span class="fu">Axis</span>(fig[<span class="fl">1</span>, <span class="fl">1</span>], xlabel<span class="op">=</span><span class="st">"Time (ns)"</span>, ylabel<span class="op">=</span><span class="st">"Amplitude (mV)"</span>)</span>
@@ -356,7 +356,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 <span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="fu">Legend</span>(fig[<span class="fl">1</span>, <span class="fl">2</span>], [p1, p2, p3], [<span class="st">"Pulses"</span>, <span class="st">"Digitized Waveform"</span>, <span class="st">"ADC Levels"</span>])</span>
 <span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="10">
+<div class="cell-output cell-output-display" data-execution_count="32">
 <div id="fig-digiwf-small-pulse" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="main_files/figure-html/fig-digiwf-small-pulse-output-1.svg" class="img-fluid figure-img"></p>
@@ -393,7 +393,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 <span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="fu">Legend</span>(fig[<span class="fl">1</span>, <span class="fl">2</span>], [p1, p2, p3], [<span class="st">"Pulses"</span>, <span class="st">"Digitized Waveform"</span>, <span class="st">"ADC Levels"</span>])</span>
 <span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="11">
+<div class="cell-output cell-output-display" data-execution_count="33">
 <div id="fig-digiwf-small-pulse-threev" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="main_files/figure-html/fig-digiwf-small-pulse-threev-output-1.svg" class="img-fluid figure-img"></p>
@@ -406,7 +406,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 </section>
 <section id="unfolding" class="level2">
 <h2 class="anchored" data-anchor-id="unfolding">Unfolding</h2>
-<p>Pulses are unfolded from digitized waveforms using non-negative least squares (NNLS). Pulse templates (PMT pulses after they have passed through the digitization chain) are placed on a fine time grid, with resolution smaller than the expected time resolution. The resulting summed signal is fitted to the digitized waveform, yielding a <code>charge</code> (scaling factor) for each pulse template which best matches the waveform. Pulses with small charges (<span class="math inline">\(&lt;0.1\)</span> PE)are cut out. <a href="#fig-unfolding">Figure&nbsp;9</a> shows an example of such an unfolding.</p>
+<p>Pulses are unfolded from digitized waveforms using non-negative least squares (NNLS). Pulse templates (PMT pulses after they have passed through the digitization chain) are placed on a fine time grid, with resolution smaller than the expected time resolution. The resulting summed signal is fitted to the digitized waveform, yielding a <code>charge</code> (scaling factor) for each pulse template which best matches the waveform. Pulses with small charges (<span class="math inline">\(&lt;0.1\)</span> PE) are cut out. <a href="#fig-unfolding">Figure&nbsp;9</a> shows an example of such an unfolding.</p>
 <div class="cell" data-execution_count="12">
 <details>
 <summary>Code</summary>
@@ -426,7 +426,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 <span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="12">
+<div class="cell-output cell-output-display" data-execution_count="34">
 <div id="fig-unfolding" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="main_files/figure-html/fig-unfolding-output-1.svg" class="img-fluid figure-img"></p>
@@ -524,7 +524,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 <span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"Dynamic range (mV)"</span>, <span class="st">"Sampling Rate (MHz)"</span>])</span>
 <span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="14">
+<div class="cell-output cell-output-display" data-execution_count="36">
 <div id="fig-time-res" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="main_files/figure-html/fig-time-res-output-1.svg" class="img-fluid figure-img"></p>
@@ -534,7 +534,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 </div>
 </div>
 <div class="cell" data-execution_count="15">
-<div class="cell-output cell-output-display" data-execution_count="15">
+<div class="cell-output cell-output-display" data-execution_count="37">
 <div id="fig-dt-dist" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="main_files/figure-html/fig-dt-dist-output-1.svg" class="img-fluid figure-img"></p>
