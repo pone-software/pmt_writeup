@@ -186,7 +186,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 </div>
 </div>
 <div class="cell" data-execution_count="4">
-<div class="cell-output cell-output-display" data-execution_count="4">
+<div class="cell-output cell-output-display" data-execution_count="56">
 <div id="fig-pulseshape" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="main_files/figure-html/fig-pulseshape-output-1.svg" class="img-fluid figure-img"></p>
@@ -209,7 +209,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fl">0</span><span class="op">:</span><span class="fl">0.01</span><span class="op">:</span><span class="fl">5</span>, x <span class="op">-&gt;</span> <span class="fu">pdf</span>(spe_d, x),</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    axis<span class="op">=</span>(; title<span class="op">=</span><span class="st">"SPE Distribution"</span>, xlabel<span class="op">=</span><span class="st">"Charge (PE)"</span>, ylabel<span class="op">=</span><span class="st">"PDF"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="5">
+<div class="cell-output cell-output-display" data-execution_count="57">
 <div id="fig-spedist" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="main_files/figure-html/fig-spedist-output-1.svg" class="img-fluid figure-img"></p>
@@ -228,7 +228,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>charges <span class="op">=</span> <span class="fu">rand</span>(spe_d, <span class="fl">1000</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(charges, axis<span class="op">=</span>(; xlabel<span class="op">=</span><span class="st">"Charge (PE)"</span>, ylabel<span class="op">=</span><span class="st">"Counts"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="6">
+<div class="cell-output cell-output-display" data-execution_count="58">
 <div id="fig-spedist-sampl" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="main_files/figure-html/fig-spedist-sampl-output-1.svg" class="img-fluid figure-img"></p>
@@ -257,7 +257,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="7">
+<div class="cell-output cell-output-display" data-execution_count="59">
 <div id="fig-ps-example" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="main_files/figure-html/fig-ps-example-output-1.svg" class="img-fluid figure-img"></p>
@@ -277,7 +277,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(waveform.timestamps, waveform.values, axis<span class="op">=</span>(; xlabel<span class="op">=</span><span class="st">"Time (ns)"</span>, ylabel<span class="op">=</span><span class="st">"Amplitude (mV)"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="8">
+<div class="cell-output cell-output-display" data-execution_count="60">
 <div id="fig-wf-example" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="main_files/figure-html/fig-wf-example-output-1.svg" class="img-fluid figure-img"></p>
@@ -312,7 +312,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="fu">lines!</span>(ax, digi_wg.timestamps, digi_wg.values, label<span class="op">=</span><span class="st">"Digitized Waveform"</span>)</span>
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="61">
 <div id="fig-digiwf-example" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="main_files/figure-html/fig-digiwf-example-output-1.svg" class="img-fluid figure-img"></p>
@@ -357,7 +357,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 <span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="fu">Legend</span>(fig[<span class="fl">1</span>, <span class="fl">2</span>], [p1, p2, p3], [<span class="st">"Pulses"</span>, <span class="st">"Digitized Waveform"</span>, <span class="st">"ADC Levels"</span>])</span>
 <span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="10">
+<div class="cell-output cell-output-display" data-execution_count="62">
 <div id="fig-digiwf-small-pulse" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="main_files/figure-html/fig-digiwf-small-pulse-output-1.svg" class="img-fluid figure-img"></p>
@@ -394,7 +394,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 <span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="fu">Legend</span>(fig[<span class="fl">1</span>, <span class="fl">2</span>], [p1, p2, p3], [<span class="st">"Pulses"</span>, <span class="st">"Digitized Waveform"</span>, <span class="st">"ADC Levels"</span>])</span>
 <span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="11">
+<div class="cell-output cell-output-display" data-execution_count="63">
 <div id="fig-digiwf-small-pulse-threev" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="main_files/figure-html/fig-digiwf-small-pulse-threev-output-1.svg" class="img-fluid figure-img"></p>
@@ -427,7 +427,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 <span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="12">
+<div class="cell-output cell-output-display" data-execution_count="64">
 <div id="fig-unfolding" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="main_files/figure-html/fig-unfolding-output-1.svg" class="img-fluid figure-img"></p>
@@ -487,45 +487,50 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 </section>
 <section id="timing-study" class="level2">
 <h2 class="anchored" data-anchor-id="timing-study">Timing Study</h2>
-<p>To test the impact of the digitization chain on the timing resolution, we can conduct a study with pulses for different charges and different settings of the dynamic range and the noise rate. <a href="#fig-time-res">Figure&nbsp;10</a> summarizes the results. <a href="#fig-dt-dist">Figure&nbsp;11</a> shows the time difference distribution for one simulation set. Note, that this simulation does not include the SPE distribution.</p>
+<p>To test the impact of the digitization chain on the timing resolution, we can conduct a study with pulses for different charges and different settings of the dynamic range and the noise rate. <a href="#fig-time-res">Figure&nbsp;10</a> summarizes the results. <a href="#fig-dt-dist">Figure&nbsp;11</a> shows the time difference distribution for one simulation set. Note, that this simulation does not include the SPE distribution. The noise level assumed in the following studies is:</p>
 <div class="cell" data-execution_count="14">
+<div class="cell-output cell-output-stdout">
+<pre><code>Noise level: 0.221 mV </code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="15">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> Makie.<span class="fu">wong_colors</span>()</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> <span class="fu">Figure</span>()</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> <span class="fu">Axis</span>(fig[<span class="fl">1</span>, <span class="fl">1</span>], xscale<span class="op">=</span>log10, xlabel<span class="op">=</span><span class="st">"Pulse Charge (PE)"</span>, ylabel<span class="op">=</span><span class="st">"Time Resolution [IQR] (ns)"</span>)</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i, (grpkey, grp)) <span class="kw">in</span> <span class="fu">enumerate</span>(<span class="fu">pairs</span>(<span class="fu">groupby</span>(time_res, <span class="op">:</span>dr_end)))</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lines!</span>(ax, grp[<span class="op">:</span>, <span class="op">:</span>charge], grp[<span class="op">:</span>, <span class="op">:</span>dt_iqr], label<span class="op">=</span><span class="fu">string</span>(grpkey[<span class="fl">1</span>]), color<span class="op">=</span>colors[i])</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i, (grpkey, grp)) <span class="kw">in</span> <span class="fu">enumerate</span>(<span class="fu">pairs</span>(<span class="fu">groupby</span>(time_res_low_noise, <span class="op">:</span>dr_end)))</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lines!</span>(ax, grp[<span class="op">:</span>, <span class="op">:</span>charge], grp[<span class="op">:</span>, <span class="op">:</span>dt_iqr], linestyle<span class="op">=:</span>dash, color<span class="op">=</span>colors[i])</span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>group_color <span class="op">=</span> [<span class="fu">PolyElement</span>(color<span class="op">=</span>color, strokecolor<span class="op">=:</span>transparent)</span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>               for color <span class="kw">in</span> colors[<span class="fl">1</span><span class="op">:</span><span class="fl">3</span>]]</span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>group_linestyles <span class="op">=</span> [<span class="fu">LineElement</span>(color<span class="op">=:</span>black, linestyle<span class="op">=:</span>solid),</span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">LineElement</span>(color<span class="op">=:</span>black, linestyle<span class="op">=:</span>dash)]</span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a><span class="fu">ylims!</span>(ax, <span class="fl">0</span>, <span class="fl">5</span>)</span>
-<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>dyn_range_labels <span class="op">=</span> <span class="fu">getproperty</span>.(<span class="fu">keys</span>(<span class="fu">groupby</span>(time_res, <span class="op">:</span>dr_end)), <span class="op">:</span>dr_end)</span>
-<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a><span class="fu">Legend</span>(</span>
-<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>    fig[<span class="fl">1</span>, <span class="fl">2</span>],</span>
-<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>    [group_color, group_linestyles],</span>
-<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>    [<span class="fu">string</span>.(dyn_range_labels), [<span class="fu">format</span>(<span class="st">"{:.2f}"</span>, pmt_config.adc_freq), <span class="fu">format</span>(<span class="st">"{:.2f}"</span>, pmt_config_high_sampl.adc_freq)]],</span>
-<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"Dynamic range (mV)"</span>, <span class="st">"Sampling Rate (MHz)"</span>])</span>
-<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> Makie.<span class="fu">wong_colors</span>()</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> <span class="fu">Figure</span>()</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> <span class="fu">Axis</span>(fig[<span class="fl">1</span>, <span class="fl">1</span>], xscale<span class="op">=</span>log10, xlabel<span class="op">=</span><span class="st">"Pulse Charge (PE)"</span>, ylabel<span class="op">=</span><span class="st">"Time Resolution [IQR] (ns)"</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i, (grpkey, grp)) <span class="kw">in</span> <span class="fu">enumerate</span>(<span class="fu">pairs</span>(<span class="fu">groupby</span>(time_res, <span class="op">:</span>dr_end)))</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lines!</span>(ax, grp[<span class="op">:</span>, <span class="op">:</span>charge], grp[<span class="op">:</span>, <span class="op">:</span>dt_iqr], label<span class="op">=</span><span class="fu">string</span>(grpkey[<span class="fl">1</span>]), color<span class="op">=</span>colors[i])</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i, (grpkey, grp)) <span class="kw">in</span> <span class="fu">enumerate</span>(<span class="fu">pairs</span>(<span class="fu">groupby</span>(time_res_low_noise, <span class="op">:</span>dr_end)))</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lines!</span>(ax, grp[<span class="op">:</span>, <span class="op">:</span>charge], grp[<span class="op">:</span>, <span class="op">:</span>dt_iqr], linestyle<span class="op">=:</span>dash, color<span class="op">=</span>colors[i])</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>group_color <span class="op">=</span> [<span class="fu">PolyElement</span>(color<span class="op">=</span>color, strokecolor<span class="op">=:</span>transparent)</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>               for color <span class="kw">in</span> colors[<span class="fl">1</span><span class="op">:</span><span class="fl">3</span>]]</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>group_linestyles <span class="op">=</span> [<span class="fu">LineElement</span>(color<span class="op">=:</span>black, linestyle<span class="op">=:</span>solid),</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">LineElement</span>(color<span class="op">=:</span>black, linestyle<span class="op">=:</span>dash)]</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="fu">ylims!</span>(ax, <span class="fl">0</span>, <span class="fl">5</span>)</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>dyn_range_labels <span class="op">=</span> <span class="fu">getproperty</span>.(<span class="fu">keys</span>(<span class="fu">groupby</span>(time_res, <span class="op">:</span>dr_end)), <span class="op">:</span>dr_end)</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a><span class="fu">Legend</span>(</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>    fig[<span class="fl">1</span>, <span class="fl">2</span>],</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>    [group_color, group_linestyles],</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>    [<span class="fu">string</span>.(dyn_range_labels), [<span class="fu">format</span>(<span class="st">"{:.2f}"</span>, pmt_config.adc_freq), <span class="fu">format</span>(<span class="st">"{:.2f}"</span>, pmt_config_high_sampl.adc_freq)]],</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"Dynamic range (mV)"</span>, <span class="st">"Sampling Rate (MHz)"</span>])</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="14">
+<div class="cell-output cell-output-display" data-execution_count="67">
 <div id="fig-time-res" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="main_files/figure-html/fig-time-res-output-1.svg" class="img-fluid figure-img"></p>
@@ -534,8 +539,8 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 </div>
 </div>
 </div>
-<div class="cell" data-execution_count="15">
-<div class="cell-output cell-output-display" data-execution_count="15">
+<div class="cell" data-execution_count="16">
+<div class="cell-output cell-output-display" data-execution_count="68">
 <div id="fig-dt-dist" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="main_files/figure-html/fig-dt-dist-output-1.svg" class="img-fluid figure-img"></p>
@@ -547,7 +552,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 </section>
 <section id="double-pulse-study" class="level2">
 <h2 class="anchored" data-anchor-id="double-pulse-study">Double Pulse Study</h2>
-<p>In order to identify <span class="math inline">\(\nu_\tau\)</span> below 100TeV, analyzing the waveform structure for double pulse signatures might be beneficial. Here, we study the ability to recognize to distinct SPE pulses separated by a certain distance in time. As a metric we use the mean number of unfolded pulses, evaluated for double pulses vs.&nbsp;single, 2PE pulses. Here, the SPE distribution is included. The pulse separation time <span class="math inline">\(\Delta t\)</span> can be converted into a <span class="math inline">\(\nu_\tau\)</span> energy equivalent by using: <span class="math display">\[ \Delta t = \frac{1}{c} \cdot \frac{50~\mathrm{m} \cdot E}{\mathrm{PeV}}\]</span> which estimates the expected time difference between interaction vertex and decay vertex for a <span class="math inline">\(\tau\)</span> of energy <span class="math inline">\(E\)</span>. This estimation is valid for <span class="math inline">\(tau\)</span> direction aligned with the line of sight of an individual PMT. <a href="#fig-doublepulse">Figure&nbsp;12</a> shows the result of this study. At energies of 20TeV-30TeV, the mean number of unfolded pulses is significantly higher than for a single pulse with 2PE charge.</p>
+<p>In order to identify <span class="math inline">\(\nu_\tau\)</span> below 100TeV, analyzing the waveform structure for double pulse signatures might be beneficial. Here, we study the ability to recognize to distinct SPE pulses separated by a certain distance in time. As a metric we use the mean number of unfolded pulses, evaluated for double pulses vs.&nbsp;single, 2PE pulses. Here, the SPE distribution is included. The pulse separation time <span class="math inline">\(\Delta t\)</span> can be converted into a <span class="math inline">\(\nu_\tau\)</span> energy equivalent by using: <span class="math display">\[ \Delta t = \frac{1}{c} \cdot \frac{50~\mathrm{m} \cdot E}{\mathrm{PeV}}\]</span> which estimates the expected time difference between interaction vertex and decay vertex for a <span class="math inline">\(\tau\)</span> of energy <span class="math inline">\(E\)</span>. This estimation is valid for <span class="math inline">\(\tau\)</span> directions aligned with the line of sight of an individual PMT. <a href="#fig-doublepulse">Figure&nbsp;12</a> shows the result of this study. At energies of 20TeV-30TeV, the mean number of unfolded pulses is significantly higher than for a single pulse with 2PE charge.</p>
 <div class="callout callout-style-default callout-note callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -561,46 +566,60 @@ Note
 <p>Note that the metric used here is not necessarily the optimal metric in identifying double pulses, but should be understood as a conservative estimate. Also note that this study does not average over different alignments of the tau relative to the PMT line of sight.</p>
 </div>
 </div>
-<div class="cell" data-execution_count="16">
+<div class="cell" data-execution_count="17">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>time_sep_per_GeV <span class="op">=</span> (<span class="fl">50</span> <span class="op">/</span> <span class="fl">0.3</span>) <span class="op">/</span> <span class="fl">1E6</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>tau_log_e <span class="op">=</span> <span class="fl">3</span><span class="op">:</span><span class="fl">0.05</span><span class="op">:</span><span class="fl">5</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>time_sep <span class="op">=</span> time_sep_per_GeV <span class="op">.*</span> <span class="fl">10</span> <span class="op">.^</span> tau_log_e</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>pulse_times <span class="op">=</span> <span class="fu">rand</span>(<span class="fu">Uniform</span>(<span class="fl">0</span>, <span class="fl">10</span>), <span class="fl">200</span>)</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>rdt <span class="op">=</span> []</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>rdc <span class="op">=</span> []</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>sucess <span class="op">=</span> []</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> []</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> tle <span class="kw">in</span> tau_log_e</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    time_sep <span class="op">=</span> <span class="fl">10</span><span class="op">^</span>tle <span class="op">*</span> time_sep_per_GeV</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> t <span class="kw">in</span> pulse_times</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>        c <span class="op">=</span> <span class="fu">rand</span>(spe_d)</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>        ps <span class="op">=</span> <span class="fu">PulseSeries</span>([t, t <span class="op">+</span> time_sep], <span class="fu">rand</span>(spe_d, <span class="fl">2</span>), pmt_config.pulse_model)</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>        digi_wf <span class="op">=</span> <span class="fu">digitize_waveform</span>(ps, pmt_config.sampling_freq, pmt_config.adc_freq, <span class="fl">0.01</span>, pmt_config.lp_filter, time_range<span class="op">=</span>[<span class="op">-</span><span class="fl">10</span>, <span class="fl">50</span>])</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>        unfolded_sig <span class="op">=</span> <span class="fu">unfold_waveform</span>(digi_wf, pmt_config.pulse_model_filt, pmt_config.unf_pulse_res, <span class="fl">0.3</span>, <span class="op">:</span>nnls)</span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>        ps <span class="op">=</span> <span class="fu">PulseSeries</span>([t, t], <span class="fu">rand</span>(spe_d, <span class="fl">2</span>), pmt_config.pulse_model)</span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>        digi_wf <span class="op">=</span> <span class="fu">digitize_waveform</span>(ps, pmt_config.sampling_freq, pmt_config.adc_freq, <span class="fl">0.01</span>, pmt_config.lp_filter, time_range<span class="op">=</span>[<span class="op">-</span><span class="fl">10</span>, <span class="fl">50</span>])</span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>        unfolded_bg <span class="op">=</span> <span class="fu">unfold_waveform</span>(digi_wf, pmt_config.pulse_model_filt, pmt_config.unf_pulse_res, <span class="fl">0.3</span>, <span class="op">:</span>nnls)</span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>        <span class="fu">push!</span>(results, (np_sig<span class="op">=</span><span class="fu">length</span>(unfolded_sig), np_bg<span class="op">=</span><span class="fu">length</span>(unfolded_bg), tle<span class="op">=</span>tle))</span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> <span class="fu">DataFrame</span>(results)</span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>results_mean <span class="op">=</span> <span class="fu">combine</span>(<span class="fu">groupby</span>(results, <span class="op">:</span>tle), [<span class="op">:</span>np_sig, <span class="op">:</span>np_bg] <span class="op">.=&gt;</span> mean)</span>
-<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> <span class="fu">Figure</span>()</span>
-<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> <span class="fu">Axis</span>(fig[<span class="fl">1</span>, <span class="fl">1</span>], xlabel<span class="op">=</span><span class="st">"Log10(Energy)"</span>, ylabel<span class="op">=</span><span class="st">"Mean number of reco pulses"</span>)</span>
-<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a><span class="fu">lines!</span>(ax, results_mean[<span class="op">:</span>, <span class="op">:</span>tle], results_mean[<span class="op">:</span>, <span class="op">:</span>np_sig_mean], label<span class="op">=</span><span class="st">"Signal"</span>)</span>
-<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a><span class="fu">lines!</span>(ax, results_mean[<span class="op">:</span>, <span class="op">:</span>tle], results_mean[<span class="op">:</span>, <span class="op">:</span>np_bg_mean], label<span class="op">=</span><span class="st">"BG (2PE single)"</span>)</span>
-<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a><span class="fu">axislegend</span>(ax, position<span class="op">=:</span>lt)</span>
-<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>time_sep_per_GeV <span class="op">=</span> (<span class="fl">50</span> <span class="op">/</span> <span class="fl">0.3</span>) <span class="op">/</span> <span class="fl">1E6</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>tau_log_e <span class="op">=</span> <span class="fl">3</span><span class="op">:</span><span class="fl">0.05</span><span class="op">:</span><span class="fl">5</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>time_sep <span class="op">=</span> time_sep_per_GeV <span class="op">.*</span> <span class="fl">10</span> <span class="op">.^</span> tau_log_e</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>pulse_times <span class="op">=</span> <span class="fu">rand</span>(<span class="fu">Uniform</span>(<span class="fl">0</span>, <span class="fl">10</span>), <span class="fl">200</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>rdt <span class="op">=</span> []</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>rdc <span class="op">=</span> []</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>sucess <span class="op">=</span> []</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> []</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> tle <span class="kw">in</span> tau_log_e</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    time_sep <span class="op">=</span> <span class="fl">10</span><span class="op">^</span>tle <span class="op">*</span> time_sep_per_GeV</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> t <span class="kw">in</span> pulse_times</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>        c <span class="op">=</span> <span class="fu">rand</span>(spe_d)</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>        ps <span class="op">=</span> <span class="fu">PulseSeries</span>([t, t <span class="op">+</span> time_sep], <span class="fu">rand</span>(spe_d, <span class="fl">2</span>), pmt_config.pulse_model)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>        digi_wf <span class="op">=</span> <span class="fu">digitize_waveform</span>(ps, pmt_config.sampling_freq, pmt_config.adc_freq, <span class="fl">0.01</span>, pmt_config.lp_filter, time_range<span class="op">=</span>[<span class="op">-</span><span class="fl">10</span>, <span class="fl">50</span>])</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>        unfolded_sig <span class="op">=</span> <span class="fu">unfold_waveform</span>(digi_wf, pmt_config.pulse_model_filt, pmt_config.unf_pulse_res, <span class="fl">0.3</span>, <span class="op">:</span>nnls)</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>        ps <span class="op">=</span> <span class="fu">PulseSeries</span>([t, t], <span class="fu">rand</span>(spe_d, <span class="fl">2</span>), pmt_config.pulse_model)</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>        digi_wf <span class="op">=</span> <span class="fu">digitize_waveform</span>(ps, pmt_config.sampling_freq, pmt_config.adc_freq, <span class="fl">0.01</span>, pmt_config.lp_filter, time_range<span class="op">=</span>[<span class="op">-</span><span class="fl">10</span>, <span class="fl">50</span>])</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>        unfolded_bg <span class="op">=</span> <span class="fu">unfold_waveform</span>(digi_wf, pmt_config.pulse_model_filt, pmt_config.unf_pulse_res, <span class="fl">0.3</span>, <span class="op">:</span>nnls)</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>        <span class="fu">push!</span>(results, (np_sig<span class="op">=</span><span class="fu">length</span>(unfolded_sig), np_bg<span class="op">=</span><span class="fu">length</span>(unfolded_bg), tle<span class="op">=</span>tle, time_sep<span class="op">=</span>time_sep))</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> <span class="fu">DataFrame</span>(results)</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>results_mean <span class="op">=</span> <span class="fu">combine</span>(<span class="fu">groupby</span>(results, <span class="op">:</span>tle), [<span class="op">:</span>np_sig, <span class="op">:</span>np_bg] <span class="op">.=&gt;</span> mean, <span class="op">:</span>time_sep <span class="op">=&gt;</span> first)</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> <span class="fu">Figure</span>()</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> <span class="fu">Axis</span>(fig[<span class="fl">1</span>, <span class="fl">1</span>], xlabel<span class="op">=</span><span class="st">"Log10(Energy)"</span>, ylabel<span class="op">=</span><span class="st">"Mean number of reco pulses"</span>,</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>    xscale<span class="op">=</span>log10)</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a><span class="fu">lines!</span>(ax, <span class="fl">10</span> <span class="op">.^</span> results_mean[<span class="op">:</span>, <span class="op">:</span>tle], results_mean[<span class="op">:</span>, <span class="op">:</span>np_sig_mean], label<span class="op">=</span><span class="st">"Signal"</span>)</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a><span class="fu">lines!</span>(ax, <span class="fl">10</span> <span class="op">.^</span> results_mean[<span class="op">:</span>, <span class="op">:</span>tle], results_mean[<span class="op">:</span>, <span class="op">:</span>np_bg_mean], label<span class="op">=</span><span class="st">"BG (2PE single)"</span>)</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a><span class="fu">axislegend</span>(ax, position<span class="op">=:</span>lt)</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>ax2 <span class="op">=</span> <span class="fu">Axis</span>(</span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>    fig[<span class="fl">1</span>, <span class="fl">1</span>],</span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>    limits<span class="op">=</span>(<span class="fu">minimum</span>(results_mean[<span class="op">:</span>, <span class="op">:</span>time_sep_first]), <span class="fu">maximum</span>(results_mean[<span class="op">:</span>, <span class="op">:</span>time_sep_first]), <span class="fl">0</span>, <span class="fl">1</span>),</span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>    xaxisposition<span class="op">=:</span>top,</span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>    xlabel<span class="op">=</span><span class="st">"Time Separation (ns)"</span>,</span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>    xscale<span class="op">=</span>log10)</span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a><span class="fu">hidespines!</span>(ax2)</span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a><span class="fu">hideydecorations!</span>(ax2)</span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a><span class="fu">xlims!</span>(ax, <span class="fl">10</span><span class="op">^</span>tau_log_e[<span class="fl">1</span>], <span class="fl">10</span><span class="op">^</span>tau_log_e[<span class="kw">end</span>])</span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="16">
+<div class="cell-output cell-output-display" data-execution_count="69">
 <div id="fig-doublepulse" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="main_files/figure-html/fig-doublepulse-output-1.svg" class="img-fluid figure-img"></p>
