@@ -180,12 +180,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The PMT pulse shape is modelled by a gumbel distribution: <span class="math display">\[
 p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 \]</span> with parameters:</p>
-<div class="cell" data-execution_count="2">
+<div class="cell" data-execution_count="3">
 <div class="cell-output cell-output-stdout">
 <pre><code>a=10.00, b=1.94, FWHM=6.0ns</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="3">
+<div class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display" data-execution_count="4">
 <div id="fig-pulseshape" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
@@ -203,7 +203,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 <section id="spe-distribution" class="level2">
 <h2 class="anchored" data-anchor-id="spe-distribution">SPE Distribution</h2>
 <p>The SPE distribution is modelled as a mixture of a truncated normal distribution and an exponential distribution: <span class="math display">\[ p(q) = a \cdot \frac{1}{\sqrt{2\pi\sigma^2}} \exp \left ( -\frac{(q-\mu)^2}{\sigma^2} \right )  + (1-a)\cdot \frac{1}{\theta}\exp \left( - \frac{q}{\theta}\right)\]</span></p>
-<div class="cell" data-execution_count="4">
+<div class="cell" data-execution_count="5">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fl">0</span><span class="op">:</span><span class="fl">0.01</span><span class="op">:</span><span class="fl">5</span>, x <span class="op">-&gt;</span> <span class="fu">pdf</span>(spe_d, x),</span>
@@ -222,7 +222,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 <section id="pmt-pulses" class="level2">
 <h2 class="anchored" data-anchor-id="pmt-pulses">PMT Pulses</h2>
 <p>The PMT pulse amplitude (in units of PE) is drawn from the SPE distribution:</p>
-<div class="cell" data-execution_count="5">
+<div class="cell" data-execution_count="6">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>charges <span class="op">=</span> <span class="fu">rand</span>(spe_d, <span class="fl">1000</span>)</span>
@@ -243,7 +243,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 <section id="pulse-series" class="level3">
 <h3 class="anchored" data-anchor-id="pulse-series">Pulse Series</h3>
 <p>Pulse series are a collection of pulses at timestamps <span class="math inline">\(t_1, \ldots, t_n\)</span> with charges <span class="math inline">\(q_1, \ldots, q_n\)</span>. Evaluating the pulse series corresponds to the analog output signal of the PMT:</p>
-<div class="cell" data-execution_count="6">
+<div class="cell" data-execution_count="7">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pulse_series <span class="op">=</span> <span class="fu">PulseSeries</span>([<span class="fl">0</span>, <span class="fl">5</span>, <span class="fl">10</span>], [<span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">1</span>], pmt_config.pulse_model)</span>
@@ -270,7 +270,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 <section id="raw-waveforms" class="level3">
 <h3 class="anchored" data-anchor-id="raw-waveforms">Raw Waveforms</h3>
 <p>Raw waveforms are created by evaluating the pulse series with a given sampling frequency and adding gaussian white noise on top:</p>
-<div class="cell" data-execution_count="7">
+<div class="cell" data-execution_count="8">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>waveform <span class="op">=</span> <span class="fu">Waveform</span>(pulse_series, pmt_config.sampling_freq, pmt_config.noise_amp)</span>
@@ -295,7 +295,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 <li>Resampling the waveform with a given digitizer frequency</li>
 <li>Quantizing the waveform values with given digitizer levels</li>
 </ol>
-<div class="cell" data-execution_count="8">
+<div class="cell" data-execution_count="9">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>digi_wg <span class="op">=</span> <span class="fu">digitize_waveform</span>(</span>
@@ -325,7 +325,7 @@ p(t) = \frac{1}{b} \exp \left (- \frac{(x-a)}{b} - e^{-\frac{(x-a)}{b}} \right )
 <section id="dynamic-range" class="level3">
 <h3 class="anchored" data-anchor-id="dynamic-range">Dynamic range</h3>
 <p>We can test the effect of the dynamic range on small pulses. <a href="#fig-digiwf-small-pulse">Figure&nbsp;7</a> shows the digitized waveform for pulses with charges [0.1, 0.2, 0.3, 0.4] PE, with 12bits in a range of (0, 1)V. <a href="#fig-digiwf-small-pulse-threev">Figure&nbsp;8</a> shows the waveform with 12bits in a range of (0, 3)V.</p>
-<div class="cell" data-execution_count="9">
+<div class="cell" data-execution_count="10">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pulse_series <span class="op">=</span> <span class="fu">PulseSeries</span>([<span class="fl">0</span>, <span class="fl">20</span>, <span class="fl">40</span>, <span class="fl">60</span>], [<span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>], pmt_config.pulse_model)</span>
@@ -377,7 +377,7 @@ Note
 </div>
 <div class="callout-body-container callout-body">
 <p>Note that the dynamic range is typically defined as ratio between the smallest and largest value which can be assumed by the signal.</p>
-<div class="cell" data-execution_count="10">
+<div class="cell" data-execution_count="11">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">println</span>(<span class="fu">format</span>(<span class="st">"DNR for 12 bits in ({:.0f}, {:.0f}): {:.2f}"</span>, pmt_config.adc_dyn_range<span class="op">...</span>, <span class="fl">10</span> <span class="op">*</span> <span class="fu">log10</span>(bins[<span class="fl">2</span>] <span class="op">/</span> bins[<span class="kw">end</span>])))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -388,7 +388,7 @@ Note
 </div>
 </div>
 </div>
-<div class="cell" data-execution_count="11">
+<div class="cell" data-execution_count="12">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> <span class="fu">Figure</span>()</span>
@@ -430,7 +430,7 @@ Note
 <section id="unfolding" class="level2">
 <h2 class="anchored" data-anchor-id="unfolding">Unfolding</h2>
 <p>Pulses are unfolded from digitized waveforms using non-negative least squares (NNLS). Pulse templates (PMT pulses after they have passed through the digitization chain) are placed on a fine time grid, with resolution smaller than the expected time resolution. The resulting summed signal is fitted to the digitized waveform, yielding a <code>charge</code> (scaling factor) for each pulse template which best matches the waveform. Pulses with small charges (<span class="math inline">\(&lt;0.1\)</span> PE) are cut out. <a href="#fig-unfolding">Figure&nbsp;9</a> shows an example of such an unfolding.</p>
-<div class="cell" data-execution_count="12">
+<div class="cell" data-execution_count="13">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>ps <span class="op">=</span> <span class="fu">PulseSeries</span>([<span class="fl">5.0</span>], [<span class="fl">1.0</span>], pmt_config.pulse_model)</span>
@@ -458,7 +458,7 @@ Note
 </div>
 </div>
 </div>
-<div class="cell" data-execution_count="13">
+<div class="cell" data-execution_count="14">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>pulse_charges <span class="op">=</span> [<span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.5</span>, <span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">50</span>, <span class="fl">100</span>]</span>
@@ -510,12 +510,12 @@ Note
 <section id="timing-study" class="level2">
 <h2 class="anchored" data-anchor-id="timing-study">Timing Study</h2>
 <p>To test the impact of the digitization chain on the timing resolution, we can conduct a study with pulses for different charges and different settings of the dynamic range and the noise rate. <a href="#fig-time-res">Figure&nbsp;10</a> summarizes the results. <a href="#fig-dt-dist">Figure&nbsp;11</a> shows the time difference distribution for one simulation set. Note, that this simulation does not include the SPE distribution. The noise level assumed in the following studies is:</p>
-<div class="cell" data-execution_count="14">
+<div class="cell" data-execution_count="15">
 <div class="cell-output cell-output-stdout">
 <pre><code>Noise level: 0.221 mV </code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="15">
+<div class="cell" data-execution_count="16">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> Makie.<span class="fu">wong_colors</span>()</span>
@@ -561,7 +561,7 @@ Note
 </div>
 </div>
 </div>
-<div class="cell" data-execution_count="16">
+<div class="cell" data-execution_count="17">
 <div class="cell-output cell-output-display" data-execution_count="17">
 <div id="fig-dt-dist" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
@@ -588,7 +588,7 @@ Note
 <p>Note that the metric used here is not necessarily the optimal metric in identifying double pulses, but should be understood as a conservative estimate. Also note that this study does not average over different alignments of the tau relative to the PMT line of sight.</p>
 </div>
 </div>
-<div class="cell" data-execution_count="17">
+<div class="cell" data-execution_count="18">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>time_sep_per_GeV <span class="op">=</span> (<span class="fl">50</span> <span class="op">/</span> <span class="fl">0.3</span>) <span class="op">/</span> <span class="fl">1E6</span></span>
