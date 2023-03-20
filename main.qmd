@@ -30,7 +30,12 @@ fwhm = 6.0
 gumbel_scale = gumbel_width_from_fwhm(6)
 gumbel_loc = 10
 
+adc_range = (0.0, 1000.0)
+adc_bits = 12
 
+adc_noise_level = 0.6
+
+noise_amp = find_noise_scale(adc_noise_level, adc_range, adc_bits)
 
 pmt_config = PMTConfig(
     st=ExponTruncNormalSPE(expon_rate=1.0, norm_sigma=0.3, norm_mu=1.0, trunc_low=0.0, peak_to_valley=3.1),
@@ -39,10 +44,10 @@ pmt_config = PMTConfig(
         amplitude=7.0 # mV
     ),
     #snr_db=22.92,
-    snr_db=30.0,
+    noise_sigma=noise_amp,
     sampling_freq=2.0,
     unf_pulse_res=0.1,
-    adc_freq=0.2,
+    adc_freq=0.208,
     adc_bits=12,
     adc_dyn_range=(0.0, 1000.0), #mV
     lp_cutoff=0.125,
@@ -55,7 +60,7 @@ pmt_config_high_sampl = PMTConfig(
         dist=Truncated(Gumbel(0, gumbel_scale) + gumbel_loc, 0, 30),
         amplitude=7.0 # mV
     ),
-    snr_db=30.0,
+    noise_sigma=noise_amp,
     sampling_freq=2.0,
     unf_pulse_res=0.1,
     adc_freq=0.25,
@@ -176,14 +181,15 @@ fig
 ```
 
 ### Dynamic range
-We can test the effect of the dynamic range on small pulses. @fig-digiwf-small-pulse shows the digitized waveform for pulses with charges [0.1, 0.2, 0.3, 0.4] PE, with 12bits in a range of (0, 1)V. @fig-digiwf-small-pulse-threev shows the waveform with 12bits in a range of (0, 3)V
+We can test the effect of the dynamic range on small pulses. @fig-digiwf-small-pulse shows the digitized waveform for pulses with charges [0.1, 0.2, 0.3, 0.4] PE, with 12bits in a range of (0, 1)V. @fig-digiwf-small-pulse-threev shows the waveform with 12bits in a range of (0, 3)V.
+
 
 ```{julia}
 #| label: fig-digiwf-small-pulse
 #| fig-cap: "Digitized Waveform for three pulses at times 0ns, 5ns and 10ns with charges 1PE, 5PE and 1PE"
 
 pulse_series = PulseSeries([0, 20, 40, 60], [0.1, 0.2, 0.3, 0.4], pmt_config.pulse_model)
-waveform = make_waveform(pulse_series, pmt_config.sampling_freq, pmt_config.noise_amp)
+waveform = Waveform(pulse_series, pmt_config.sampling_freq, pmt_config.noise_amp)
 
 fig = Figure()
 ax = Axis(fig[1, 1], xlabel="Time (ns)", ylabel="Amplitude (mV)")
@@ -212,6 +218,16 @@ Legend(fig[1, 2], [p1, p2, p3], ["Pulses", "Digitized Waveform", "ADC Levels"])
 fig
 
 ```
+
+::: {.callout-note}
+Note that the dynamic range is typically defined as ratio between the smallest and largest value which can be assumed by the signal.
+```{julia}
+println(format("DNR for 12 bits in ({:.0f}, {:.0f}): {:.2f}", pmt_config.adc_dyn_range..., 10 * log10(bins[2] / bins[end])))
+```
+:::
+
+
+
 
 ```{julia}
 #| label: fig-digiwf-small-pulse-threev
@@ -280,9 +296,11 @@ data_unf_res = []
 
 for (dr_end, c) in product(dyn_ranges_end, pulse_charges)
     pulse_times = rand(Uniform(0, 10), 500)
+
+    noise_amp = find_noise_scale(adc_noise_level, (0, dr_end), adc_bits)
     for t in pulse_times
         ps = PulseSeries([t], [c], pmt_config.pulse_model)
-        digi_wf = digitize_waveform(ps, pmt_config.sampling_freq, pmt_config.adc_freq, pmt_config.noise_amp, pmt_config.lp_filter, time_range=[-10, 50], yrange=(0.0, dr_end),)
+        digi_wf = digitize_waveform(ps, pmt_config.sampling_freq, pmt_config.adc_freq, noise_amp, pmt_config.lp_filter, time_range=[-10, 50], yrange=(0.0, dr_end),)
         unfolded = unfold_waveform(digi_wf, pmt_config.pulse_model_filt, pmt_config.unf_pulse_res, 0.1, :nnls)
         if length(unfolded) > 0
             amax = sortperm(unfolded.charges)[end]
@@ -296,9 +314,10 @@ data_unf_res_low_noise = []
 
 for (dr_end, c) in product(dyn_ranges_end, pulse_charges)
     pulse_times = rand(Uniform(0, 10), 100)
+    noise_amp = find_noise_scale(adc_noise_level, (0, dr_end), adc_bits)
     for t in pulse_times
         ps = PulseSeries([t], [c], pmt_config_high_sampl.pulse_model)
-        digi_wf = digitize_waveform(ps, pmt_config_high_sampl.sampling_freq, pmt_config_high_sampl.adc_freq, pmt_config_high_sampl.noise_amp, pmt_config_high_sampl.lp_filter, time_range=[-10, 50], yrange=(0.0, dr_end),)
+        digi_wf = digitize_waveform(ps, pmt_config_high_sampl.sampling_freq, pmt_config_high_sampl.adc_freq, noise_amp, pmt_config_high_sampl.lp_filter, time_range=[-10, 50], yrange=(0.0, dr_end),)
         unfolded = unfold_waveform(digi_wf, pmt_config_high_sampl.pulse_model_filt, pmt_config_high_sampl.unf_pulse_res, 0.1, :nnls)
         if length(unfolded) > 0
             amax = sortperm(unfolded.charges)[end]
@@ -322,7 +341,12 @@ time_res = combine(groupby(data_unf_res, [:charge, :dr_end]), :dt => mean, :dt =
 
 ## Timing Study
 To test the impact of the digitization chain on the timing resolution, we can conduct a study with pulses for different charges and different settings of the dynamic range and the noise rate. @fig-time-res summarizes the results. @fig-dt-dist shows the time difference distribution for one simulation set.
-Note, that this simulation does not include the SPE distribution.
+Note, that this simulation does not include the SPE distribution. The noise level (in units of ADC counts) assumed in the following studies is:
+```{julia}
+#| echo: false
+println(format("Noise level: {:.3f} counts ", adc_noise_level))
+
+```
 ```{julia}
 #| label: fig-time-res
 #| fig-cap: "Time resolution of unfolded pulses."
@@ -372,3 +396,67 @@ sel = data_unf_res[data_unf_res[:, :dr_end].==3000.0.&&data_unf_res[:, :charge].
 hist(sel[:, :dt], axis=(; xlabel="Time difference (ns)", ylabel="Counts"))
 ```
 
+## Double Pulse Study
+In order to identify $\nu_\tau$ below 100TeV, analyzing the waveform structure for double pulse signatures might be beneficial. Here, we study the ability to recognize to distinct SPE pulses separated by a certain distance in time. As a metric we use the mean number of unfolded pulses, evaluated for double pulses vs. single, 2PE pulses. Here, the SPE distribution is included.
+The pulse separation time $\Delta t$ can be converted into a $\nu_\tau$ energy equivalent by using:
+$$ \Delta t = \frac{1}{c} \cdot \frac{50~\mathrm{m} \cdot E}{\mathrm{PeV}}$$
+which estimates the expected time difference between interaction vertex and  decay vertex for a $\tau$ of energy $E$. This estimation is valid for $\tau$ directions aligned with the line of sight of an individual PMT. @fig-doublepulse shows the result of this study. At energies of 20TeV-30TeV, the mean number of unfolded pulses is significantly higher than for a single pulse with 2PE charge.
+
+::: {.callout-note}
+Note that the metric used here is not necessarily the optimal metric in identifying double pulses, but should be understood as a conservative estimate. Also note that this study does not average over different alignments of the tau relative to the PMT line of sight.
+:::
+
+
+```{julia}
+#| fig-cap: "Mean number of unfolded pulses for two distinct SPE (blue) vs. a single 2SPE pulse (orange)"
+#| label: fig-doublepulse
+time_sep_per_GeV = (50 / 0.3) / 1E6
+tau_log_e = 3:0.05:5
+time_sep = time_sep_per_GeV .* 10 .^ tau_log_e
+pulse_times = rand(Uniform(0, 10), 200)
+
+
+rdt = []
+rdc = []
+sucess = []
+results = []
+for tle in tau_log_e
+    time_sep = 10^tle * time_sep_per_GeV
+    for t in pulse_times
+        c = rand(spe_d)
+        ps = PulseSeries([t, t + time_sep], rand(spe_d, 2), pmt_config.pulse_model)
+        digi_wf = digitize_waveform(ps, pmt_config.sampling_freq, pmt_config.adc_freq, pmt_config.noise_amp, pmt_config.lp_filter, time_range=[-10, 50])
+        unfolded_sig = unfold_waveform(digi_wf, pmt_config.pulse_model_filt, pmt_config.unf_pulse_res, 0.3, :nnls)
+
+        ps = PulseSeries([t, t], rand(spe_d, 2), pmt_config.pulse_model)
+        digi_wf = digitize_waveform(ps, pmt_config.sampling_freq, pmt_config.adc_freq, pmt_config.noise_amp, pmt_config.lp_filter, time_range=[-10, 50])
+        unfolded_bg = unfold_waveform(digi_wf, pmt_config.pulse_model_filt, pmt_config.unf_pulse_res, 0.3, :nnls)
+
+        push!(results, (np_sig=length(unfolded_sig), np_bg=length(unfolded_bg), tle=tle, time_sep=time_sep))
+    end
+end
+
+results = DataFrame(results)
+results_mean = combine(groupby(results, :tle), [:np_sig, :np_bg] .=> mean, :time_sep => first)
+
+fig = Figure()
+ax = Axis(fig[1, 1], xlabel="Log10(Energy)", ylabel="Mean number of reco pulses",
+    xscale=log10)
+
+lines!(ax, 10 .^ results_mean[:, :tle], results_mean[:, :np_sig_mean], label="Signal")
+lines!(ax, 10 .^ results_mean[:, :tle], results_mean[:, :np_bg_mean], label="BG (2PE single)")
+axislegend(ax, position=:lt)
+
+ax2 = Axis(
+    fig[1, 1],
+    limits=(minimum(results_mean[:, :time_sep_first]), maximum(results_mean[:, :time_sep_first]), 0, 1),
+    xaxisposition=:top,
+    xlabel="Time Separation (ns)",
+    xscale=log10)
+hidespines!(ax2)
+hideydecorations!(ax2)
+xlims!(ax, 10^tau_log_e[1], 10^tau_log_e[end])
+
+
+fig
+```
